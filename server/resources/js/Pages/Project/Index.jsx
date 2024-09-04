@@ -1,9 +1,28 @@
 import Pagination from "@/Components/Pagination";
+import SelectInput from "@/Components/SelectInput";
+import TextInput from "@/Components/TextInput";
 import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 
-const Index = ({ auth, projects }) => {
+const Index = ({ auth, projects, queryParams = null }) => {
+    queryParams = queryParams || {};
+    const searchFieldChange = (name, value) => {
+        if (value) {
+            queryParams[name] = value;
+        } else {
+            delete queryParams[name];
+        }
+
+        router.get(route("project.index"), queryParams);
+    };
+
+    const onKeyPress = (name, e) => {
+        if (e.key !== "Enter") return;
+
+        searchFieldChange(name, e.target.value);
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -22,6 +41,57 @@ const Index = ({ auth, projects }) => {
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                 <thead className=" text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                     <tr className=" text-nowrap">
+                                        <th className=" px-3 py-2"></th>
+                                        <th className=" px-3 py-2"></th>
+                                        <th className=" px-3 py-2">
+                                            <TextInput
+                                                className=" w-full"
+                                                placeholder="Project Name"
+                                                defaultValue={queryParams.name }
+                                                onBlur={(e) =>
+                                                    searchFieldChange(
+                                                        "name",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                onKeyPress={(e) =>
+                                                    onKeyPress("name", e)
+                                                }
+                                            />
+                                        </th>
+                                        <th className=" px-3 py-2">
+                                            <SelectInput
+                                                className=" w-full"
+                                                defaultValue={
+                                                    queryParams.status
+                                                }
+                                                onChange={(e) =>
+                                                    searchFieldChange(
+                                                        "status",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    Select Status
+                                                </option>
+                                                <option value="pending">
+                                                    Pending
+                                                </option>
+                                                <option value="in_progress">
+                                                    In Progress
+                                                </option>
+                                                <option value="completed">
+                                                    Completed
+                                                </option>
+                                            </SelectInput>
+                                        </th>
+                                        <th className=" px-3 py-2"></th>
+                                        <th className=" px-3 py-2"></th>
+                                        <th className=" px-3 py-2"></th>
+                                        <th className=" px-3 py-2"></th>
+                                    </tr>
+                                    <tr className=" text-nowrap">
                                         <th className=" px-3 py-2">ID</th>
                                         <th className=" px-3 py-2">Image</th>
                                         <th className=" px-3 py-2">Name</th>
@@ -30,6 +100,7 @@ const Index = ({ auth, projects }) => {
                                             Created Date
                                         </th>
                                         <th className=" px-3 py-2">Due Date</th>
+
                                         <th className=" px-3 py-2">
                                             Created By
                                         </th>

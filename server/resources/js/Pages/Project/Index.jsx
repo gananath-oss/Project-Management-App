@@ -23,6 +23,21 @@ const Index = ({ auth, projects, queryParams = null }) => {
         searchFieldChange(name, e.target.value);
     };
 
+    const sortChange = (name) => {
+        if (name === queryParams.sort_field) {
+            if (queryParams.sort_direction === "asc") {
+                queryParams.sort_direction = "desc";
+            } else {
+                queryParams.sort_direction = "asc";
+            }
+        } else {
+            queryParams.sort_field = name;
+            queryParams.sort_direction = "asc";
+        }
+
+        router.get(route("project.index"), queryParams);
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -47,7 +62,7 @@ const Index = ({ auth, projects, queryParams = null }) => {
                                             <TextInput
                                                 className=" w-full"
                                                 placeholder="Project Name"
-                                                defaultValue={queryParams.name }
+                                                defaultValue={queryParams.name}
                                                 onBlur={(e) =>
                                                     searchFieldChange(
                                                         "name",
@@ -92,14 +107,43 @@ const Index = ({ auth, projects, queryParams = null }) => {
                                         <th className=" px-3 py-2"></th>
                                     </tr>
                                     <tr className=" text-nowrap">
-                                        <th className=" px-3 py-2">ID</th>
+                                        <th
+                                            onClick={(e) => sortChange("id")}
+                                            className=" px-3 py-2"
+                                        >
+                                            ID
+                                        </th>
                                         <th className=" px-3 py-2">Image</th>
-                                        <th className=" px-3 py-2">Name</th>
-                                        <th className=" px-3 py-2">Status</th>
-                                        <th className=" px-3 py-2">
+                                        <th
+                                            onClick={(e) => sortChange("name")}
+                                            className=" px-3 py-2"
+                                        >
+                                            Name
+                                        </th>
+                                        <th
+                                            onClick={(e) =>
+                                                sortChange("status")
+                                            }
+                                            className=" px-3 py-2"
+                                        >
+                                            Status
+                                        </th>
+                                        <th
+                                            onClick={(e) =>
+                                                sortChange("created_at")
+                                            }
+                                            className=" px-3 py-2"
+                                        >
                                             Created Date
                                         </th>
-                                        <th className=" px-3 py-2">Due Date</th>
+                                        <th
+                                            onClick={(e) =>
+                                                sortChange("due_date")
+                                            }
+                                            className=" px-3 py-2"
+                                        >
+                                            Due Date
+                                        </th>
 
                                         <th className=" px-3 py-2">
                                             Created By

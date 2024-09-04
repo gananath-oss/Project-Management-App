@@ -3,8 +3,6 @@ import { Head } from "@inertiajs/react";
 import TaskTable from "./TaskTable";
 
 const Index = ({ auth, tasks, queryParams = null }) => {
-    queryParams = queryParams || {};
-
     return (
         <AuthenticatedLayout
             user={auth.user}

@@ -5,7 +5,13 @@ import TextInput from "@/Components/TextInput";
 import { TASK_STATUS_CLASS_MAP, TASK_STATUS_TEXT_MAP } from "@/constants";
 import { Link, router } from "@inertiajs/react";
 
-const TaskTable = ({ tasks, queryParams }) => {
+const TaskTable = ({
+    tasks,
+    queryParams = null,
+    hideProjectColumn = false,
+}) => {
+    queryParams = queryParams || {};
+
     const searchFieldChange = (name, value) => {
         if (value) {
             queryParams[name] = value;
@@ -44,6 +50,7 @@ const TaskTable = ({ tasks, queryParams }) => {
                     <tr className=" text-nowrap">
                         <th className=" px-3 py-2"></th>
                         <th className=" px-3 py-2"></th>
+                        {!hideProjectColumn && <th className=" px-3 py-2"></th>}
                         <th className=" px-3 py-2">
                             <TextInput
                                 className=" w-full"
@@ -84,13 +91,16 @@ const TaskTable = ({ tasks, queryParams }) => {
                             Id
                         </TableHeading>
                         <th className=" px-3 py-2">Image</th>
+                        {!hideProjectColumn && (
+                            <th className=" px-3 py-2">Project Name</th>
+                        )}
                         <TableHeading
                             name="name"
                             sort_field={queryParams.sort_field}
                             sort_direction={queryParams.sort_direction}
                             sortChange={sortChange}
                         >
-                            Name
+                            Task Name
                         </TableHeading>
                         <TableHeading
                             name="status"
@@ -135,6 +145,11 @@ const TaskTable = ({ tasks, queryParams }) => {
                                     className="w-9 h-9 rounded-full"
                                 />
                             </td>
+                            {!hideProjectColumn && (
+                                <td className=" px-3 py-2">
+                                    {task.project.name}
+                                </td>
+                            )}
                             <td className=" px-3 py-2">{task.name}</td>
                             <td className=" px-3 py-2">
                                 <span

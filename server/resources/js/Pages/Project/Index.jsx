@@ -136,7 +136,7 @@ const Index = ({ auth, projects, queryParams = null }) => {
                                                 }
                                                 sortChange={sortChange}
                                             >
-                                                Name
+                                                Project Name
                                             </TableHeading>
                                             <TableHeading
                                                 name="status"

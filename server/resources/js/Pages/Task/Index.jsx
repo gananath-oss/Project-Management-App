@@ -1,12 +1,12 @@
 import Pagination from "@/Components/Pagination";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
-import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from "@/constants";
+import { TASK_STATUS_CLASS_MAP, TASK_STATUS_TEXT_MAP } from "@/constants";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
-const Index = ({ auth, projects, queryParams = null }) => {
+const Index = ({ auth, tasks, queryParams = null }) => {
     queryParams = queryParams || {};
     const searchFieldChange = (name, value) => {
         if (value) {
@@ -15,7 +15,7 @@ const Index = ({ auth, projects, queryParams = null }) => {
             delete queryParams[name];
         }
 
-        router.get(route("project.index"), queryParams);
+        router.get(route("task.index"), queryParams);
     };
 
     const onKeyPress = (name, e) => {
@@ -36,7 +36,7 @@ const Index = ({ auth, projects, queryParams = null }) => {
             queryParams.sort_direction = "asc";
         }
 
-        router.get(route("project.index"), queryParams);
+        router.get(route("task.index"), queryParams);
     };
 
     return (
@@ -44,11 +44,11 @@ const Index = ({ auth, projects, queryParams = null }) => {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Projects
+                    Tasks
                 </h2>
             }
         >
-            <Head title="Projects" />
+            <Head title="Tasks" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -62,7 +62,7 @@ const Index = ({ auth, projects, queryParams = null }) => {
                                         <th className=" px-3 py-2">
                                             <TextInput
                                                 className=" w-full"
-                                                placeholder="Project Name"
+                                                placeholder="Task Name"
                                                 defaultValue={queryParams.name}
                                                 onBlur={(e) =>
                                                     searchFieldChange(
@@ -169,54 +169,54 @@ const Index = ({ auth, projects, queryParams = null }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {projects.data.map((project) => (
+                                    {tasks.data.map((task) => (
                                         <tr
-                                            key={project.id}
+                                            key={task.id}
                                             className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                                         >
                                             <th className=" px-3 py-2">
-                                                {project.id}
+                                                {task.id}
                                             </th>
                                             <td className=" px-3 py-2">
                                                 <img
-                                                    src={project.image_path}
-                                                    alt={project.id}
+                                                    src={task.image_path}
+                                                    alt={task.id}
                                                     className="w-9 h-9 rounded-full"
                                                 />
                                             </td>
                                             <td className=" px-3 py-2">
-                                                {project.name}
+                                                {task.name}
                                             </td>
                                             <td className=" px-3 py-2">
                                                 <span
                                                     className={
                                                         " px-2 py-1 rounded text-white " +
-                                                        PROJECT_STATUS_CLASS_MAP[
-                                                            project.status
+                                                        TASK_STATUS_CLASS_MAP[
+                                                            task.status
                                                         ]
                                                     }
                                                 >
                                                     {
-                                                        PROJECT_STATUS_TEXT_MAP[
-                                                            project.status
+                                                        TASK_STATUS_TEXT_MAP[
+                                                            task.status
                                                         ]
                                                     }
                                                 </span>
                                             </td>
                                             <td className=" px-3 py-2 text-nowrap">
-                                                {project.created_at}
+                                                {task.created_at}
                                             </td>
                                             <td className=" px-3 py-2 text-nowrap">
-                                                {project.due_date}
+                                                {task.due_date}
                                             </td>
                                             <td className=" px-3 py-2">
-                                                {project.createdBy.name}
+                                                {task.createdBy.name}
                                             </td>
                                             <td className=" px-3 py-2">
                                                 <Link
                                                     href={route(
-                                                        "project.edit",
-                                                        project.id
+                                                        "task.edit",
+                                                        task.id
                                                     )}
                                                     className=" font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
                                                 >
@@ -224,8 +224,8 @@ const Index = ({ auth, projects, queryParams = null }) => {
                                                 </Link>
                                                 <Link
                                                     href={route(
-                                                        "project.destroy",
-                                                        project.id
+                                                        "task.destroy",
+                                                        task.id
                                                     )}
                                                     className=" font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
                                                 >
@@ -236,7 +236,7 @@ const Index = ({ auth, projects, queryParams = null }) => {
                                     ))}
                                 </tbody>
                             </table>
-                            <Pagination links={projects.meta.links} />
+                            <Pagination links={tasks.meta.links} />
                         </div>
                     </div>
                 </div>

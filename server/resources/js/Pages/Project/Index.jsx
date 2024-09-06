@@ -6,7 +6,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
-const Index = ({ auth, projects, queryParams = null }) => {
+const Index = ({ auth, projects, queryParams = null, success }) => {
     queryParams = queryParams || {};
     const searchFieldChange = (name, value) => {
         if (value) {
@@ -43,12 +43,26 @@ const Index = ({ auth, projects, queryParams = null }) => {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Projects
-                </h2>
+                <div className=" flex justify-between items-center">
+                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                        Projects
+                    </h2>
+                    <Link
+                        href={route("project.create")}
+                        className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
+                    >
+                        Add New +
+                    </Link>
+                </div>
             }
         >
             <Head title="Projects" />
+
+            {success && (
+                <div className=" bg-emerald-500 py-2 px-4  m-6 text-white rounded">
+                    {success}
+                </div>
+            )}
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">

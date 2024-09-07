@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 class ProjectController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. 
      */
     public function index()
     {

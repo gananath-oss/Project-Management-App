@@ -1,15 +1,23 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import TaskTable from "./TaskTable";
 
-const Index = ({ auth, tasks, queryParams = null }) => {
+const Index = ({ auth, tasks, queryParams = null, success }) => {
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Tasks
-                </h2>
+                <div className=" flex justify-between items-center">
+                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                        Tasks
+                    </h2>
+                    <Link
+                        href={route("task.create")}
+                        className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
+                    >
+                        Add New +
+                    </Link>
+                </div>
             }
         >
             <Head title="Tasks" />
@@ -21,6 +29,7 @@ const Index = ({ auth, tasks, queryParams = null }) => {
                             <TaskTable
                                 tasks={tasks}
                                 queryParams={queryParams}
+                                success={success}
                             />
                         </div>
                     </div>
